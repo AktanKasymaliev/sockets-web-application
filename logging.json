@@ -1,0 +1,50 @@
+{
+    "version": 1,
+    "disable_existing_loggers": true,
+    "formatters": {
+        "console": {
+            "format": "%(levelname)s: %(message)s"
+        },
+        "console_error": {
+            "format": "%(levelname)-8s %(asctime)s %(name)-12s %(message)s"
+        },
+        "file": {
+            "format": "%(levelname)-8s %(asctime)s %(name)-12s %(message)s"
+        },
+        "file_out": {
+            "format": "%(levelname)s: %(message)s"
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "console"
+        },
+        "console_error": {
+            "class": "logging.StreamHandler",
+            "formatter": "console_error"
+        },
+        "file_for_out": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "formatter": "file_out",
+            "filename": "src/out.log"
+        },
+        "file_for_error": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "formatter": "file",
+            "filename": "src/error.log"
+        }
+    },
+    "loggers": {
+        "application.decorators": {
+            "level": "WARNING",
+            "handlers": ["console_error", "file_for_error"]
+        },
+        "application.server": {
+            "level": "INFO",
+            "handlers": ["console", "file_for_out"]
+        }
+    }
+}
