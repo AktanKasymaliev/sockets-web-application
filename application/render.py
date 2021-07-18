@@ -1,6 +1,7 @@
+import io
 
 def render_to_string(htmlfile):
     directory = "templates/" + htmlfile
-    with open(directory, "r") as html:
+    with io.open(directory, encoding='utf-8') as html:
         txt = html.read()
     return str(txt)

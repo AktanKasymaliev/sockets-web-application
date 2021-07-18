@@ -41,6 +41,10 @@ class Server(BaseServer):
         # Listening incoming requests
         self.server_socket.listen()
 
+    def render_request(self, request):
+        request_method = request[:15]
+        return request_method
+
     @handle_exceptions
     def run(self) -> None:
         # Run and handle/send client movements
@@ -50,17 +54,23 @@ class Server(BaseServer):
             client_socket, (client_host, client_port) = self.server_socket.accept()
             self.request = client_socket.recv(1024).decode("utf-8")
             # Get request method from str
-            request_method = self.request[:14]
-            self.logger.info(f"{request_method} http://{self.HOST}:{self.PORT}/")
+            request_method = self.render_request(self.request)
+            self.logger.info(request_method)
             # Send html template/response
             self._send_response(client_socket)
 
     @handle_exceptions
     def _send_response(self, client_socket: socket.socket) -> None:
+
         # Sending to the server html reponse
-        # client_socket.sendall(str.encode("HTTP/1.0 200 OK\n",'iso-8859-1'))
-        client_socket.sendall(str.encode(render_to_string("page.html")))
+        client_socket.sendall(
+        str.encode("HTTP/1.1 200 OK\n"
+         + "Content-Type: text/html\n"
+         + "\n" # Important!
+         + render_to_string("page.html")
+         )
+        )
+
         # Close connection after sended response 
         client_socket.close()
 
-#TODO render_to_string fix
