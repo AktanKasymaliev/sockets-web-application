@@ -10,9 +10,6 @@ class BaseServer:
     """ Interface for Server """
 
     @abstractmethod
-    def __set_logging(self): pass
-
-    @abstractmethod
     def run(self): pass
 
     @abstractmethod
